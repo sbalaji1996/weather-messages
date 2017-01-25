@@ -276,10 +276,10 @@ app.post('/verify', (req, res) => {
   })
 })
 
-var textJob = new cronJob('0 10 * * *', () => {
+var textJob = new cronJob('15 10 * * *', () => {
   MongoClient.connect(mongoDetails, (err, db) => {
     if (err) return console.log(err)
 
     message.sendMessage(db, client, weather.getWeather)
   })
-});
+}, null, true);
