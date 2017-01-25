@@ -2,9 +2,7 @@ const express = require('express');
 const bodyParser= require('body-parser')
 const app = express();
 const MongoClient = require('mongodb').MongoClient
-var fs = require('fs')
 var tools = require('./resources/js/random.js')
-var common = require('./resources/js/common')
 var weather = require('./resources/js/weather')
 var message = require('./resources/js/message')
 var twilio = require('twilio'),
@@ -278,7 +276,6 @@ app.post('/verify', (req, res) => {
       }
     })
   })
-  // res.redirect('/verified')
 })
 
 // var textJob = new cronJob( '0 6 * * *', () => {
