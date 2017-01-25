@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sun or shine.</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></head>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?libraries=places" type="text/javascript"></script>
+  <script src="/google_locations" type="text/javascript"></script>
+
+  <script type="text/javascript">$('document').ready(() => {$("#header").load("/header.html");})</script>
+  <script type="text/javascript"> function show (target) {document.getElementById(target).style.display = 'block';}</script>
+
+</head>
+<body id="home" data-spy="scroll" data-target=".navbar" data-offset="60">
+  <div id="header"></div>
+  <div class="jumbotron-grey container" style="padding-top: 100px;">
+    <div id="enterPhone" class="jumbotron">
+      <p>Begin by entering the phone number you originally entered.
+      <form action="/delete" method="POST" >
+        <input type="text" placeholder="1234567890" name="number">
+        <button type="submit" onClick="show('enterCode')" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <div id="enterCode" style="display: none;" class="jumbotron">
+      <p>Please enter the confirmation code sent to the number entered above.</p>
+      <form action="/verify-delete" method="POST" >
+        <input type="text" placeholder="1234567" name="rand">
+        <button type="submit" class="btn btn-primary">Delete</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

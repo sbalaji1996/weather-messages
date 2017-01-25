@@ -1,0 +1,27 @@
+{
+  "name": "weather-messages",
+  "version": "1.0.0",
+  "description": "Send daily weather updates to your phone.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sbalaji1996/weather-messages.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "Twilio",
+    "DarkSky",
+    "Google-Locations"
+  ],
+  "author": "Srinand Balaji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sbalaji1996/weather-messages/issues"
+  },
+  "homepage": "https://github.com/sbalaji1996/weather-messages#readme"
+}
