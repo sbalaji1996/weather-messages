@@ -276,7 +276,7 @@ app.post('/verify', (req, res) => {
   })
 })
 
-var textJob = new cronJob('0 11 * * *', () => {
+var textJob = new cronJob('0 10 * * *', () => {
   MongoClient.connect(mongoDetails, (err, db) => {
     if (err) return console.log(err)
 
