@@ -19,15 +19,13 @@ var mongoPass = process.env.MONGO_PASS;
 var mongoURI = process.env.MONGO_URI;
 
 app.use(bodyParser.urlencoded({extended: true}))
+app.listen(process.env.PORT);
 
 var db
 const mongoDetails = 'mongodb://' + mongoUser + ':' + mongoPass + '@' + mongoURI
 MongoClient.connect(mongoDetails, (err, db) => {
 
   if (err) return console.log(err)
-  app.listen(3000, () => {
-    console.log('listening on 3000')
-  })
 })
 
 app.get('/', (req, res) => {
@@ -47,7 +45,7 @@ app.get('/verified', (req, res) => {
   MongoClient.connect(mongoDetails, (err, db) => {
     if (err) return console.log(err)
 
-    message.sendMessage(db, client, weather.getWeather)
+    //message.sendMessage(db, client, weather.getWeather)
   })
 })
 
@@ -56,7 +54,7 @@ app.get('/edited', (req, res) => {
   MongoClient.connect(mongoDetails, (err, db) => {
     if (err) return console.log(err)
 
-    message.sendMessage(db, client, weather.getWeather)
+    //message.sendMessage(db, client, weather.getWeather)
   })
 })
 
@@ -278,6 +276,10 @@ app.post('/verify', (req, res) => {
   })
 })
 
-// var textJob = new cronJob( '0 6 * * *', () => {
-//   client.sendMessage( { to:, from:'YOURTWILIONUMBER', body:'Hello! Hope you’re having a good day!' }, function( err, data ) {});
-// },  null, true);
+var textJob = new cronJob('0 6 * * *', () => {
+  MongoClient.connect(mongoDetails, (err, db) => {
+    if (err) return console.log(err)
+
+    message.sendMessage(db, client, weather.getWeather)
+  })
+});
