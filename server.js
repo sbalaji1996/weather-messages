@@ -3,9 +3,10 @@ const bodyParser= require('body-parser')
 const app = express();
 const MongoClient = require('mongodb').MongoClient
 var fs = require('fs')
-var tools = require('./random')
-var weather = require('./weather')
-var message = require('./message')
+var tools = require('./resources/js/random.js')
+var common = require('./resources/js/common')
+var weather = require('./resources/js/weather')
+var message = require('./resources/js/message')
 var twilio = require('twilio'),
 cronJob = require('cron').CronJob;
 
@@ -15,16 +16,14 @@ var myNum = process.env.MY_NUM;
 
 client = twilio(twilioKey, twilioSecret)
 
-var common = require('./common')
-
-configPath = './config.json';
-var parsed = JSON.parse(fs.readFileSync(configPath, 'UTF-8'));
-console.log(parsed.user)
+var mongoUser = process.env.MONGO_USER;
+var mongoPass = process.env.MONGO_PASS;
+var mongoURI = process.env.MONGO_URI;
 
 app.use(bodyParser.urlencoded({extended: true}))
 
 var db
-const mongoDetails = 'mongodb://' + parsed.user + ':' + parsed.pass + '@' + parsed.uridetails
+const mongoDetails = 'mongodb://' + mongoUser + ':' + mongoPass + '@' + mongoURI
 MongoClient.connect(mongoDetails, (err, db) => {
 
   if (err) return console.log(err)
@@ -34,19 +33,19 @@ MongoClient.connect(mongoDetails, (err, db) => {
 })
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
+  res.sendFile(__dirname + '/resources/html/index.html')
 })
 
 app.get('/edit', (req, res) => {
-  res.sendFile(__dirname + '/edit.html')
+  res.sendFile(__dirname + '/resources/html/edit.html')
 })
 
 app.get('/delete', (req, res) => {
-  res.sendFile(__dirname + '/delete.html')
+  res.sendFile(__dirname + '/resources/html/delete.html')
 })
 
 app.get('/verified', (req, res) => {
-  res.sendFile(__dirname + '/verified.html')
+  res.sendFile(__dirname + '/resources/html/verified.html')
   MongoClient.connect(mongoDetails, (err, db) => {
     if (err) return console.log(err)
 
@@ -55,7 +54,7 @@ app.get('/verified', (req, res) => {
 })
 
 app.get('/edited', (req, res) => {
-  res.sendFile(__dirname + '/edited.html')
+  res.sendFile(__dirname + '/resources/html/edited.html')
   MongoClient.connect(mongoDetails, (err, db) => {
     if (err) return console.log(err)
 
@@ -64,30 +63,31 @@ app.get('/edited', (req, res) => {
 })
 
 app.get('/deleted', (req, res) => {
-  res.sendFile(__dirname + '/deleted.html')
+  res.sendFile(__dirname + '/resources/html/deleted.html')
 })
 
 app.get('/error', (req, res) => {
-  res.sendFile(__dirname + '/error.html')
+  res.sendFile(__dirname + '/resources/html/error.html')
 })
 
 app.get('/already-entered', (req, res) => {
-  res.sendFile(__dirname + '/number_exists.html')
+  res.sendFile(__dirname + '/resources/html/number_exists.html')
 })
 
 app.get('/number-not-found', (req, res) => {
-  res.sendFile(__dirname + '/number_not_in_db.html')
+  res.sendFile(__dirname + '/resources/html/number_not_in_db.html')
 })
 
 app.get('/header.html', (req, res) => {
-  res.sendFile(__dirname + '/header.html')
+  res.sendFile(__dirname + '/resources/html/header.html')
 })
 
 app.get('/google_locations', (req, res) => {
-  res.sendFile(__dirname + '/google_locations.js')
+  res.sendFile(__dirname + '/resources/js/google_locations.js')
 })
 
 app.post('/info', (req, res) => {
+  console.log(req.body)
   var rand = tools.getRand(1000000, 9999999)
   req.body['rand'] = rand.toString()
   console.log(req.body)
@@ -281,6 +281,6 @@ app.post('/verify', (req, res) => {
   // res.redirect('/verified')
 })
 
-var textJob = new cronJob( '0 6 * * *', () => {
-  client.sendMessage( { to:'YOURPHONENUMBER', from:'YOURTWILIONUMBER', body:'Hello! Hope you’re having a good day!' }, function( err, data ) {});
-},  null, true);
+// var textJob = new cronJob( '0 6 * * *', () => {
+//   client.sendMessage( { to:, from:'YOURTWILIONUMBER', body:'Hello! Hope you’re having a good day!' }, function( err, data ) {});
+// },  null, true);

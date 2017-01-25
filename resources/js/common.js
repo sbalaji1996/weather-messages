@@ -1,6 +1,6 @@
 
 var jsdom = require("jsdom");
-$ = require("jquery")(jsdom.jsdom().parentWindow); 
+$ = require("jquery")(jsdom.jsdom().parentWindow);
 $('document').ready(() => {
-  $("#header").load("/header.html");
+  $("#header").load("/resources/html/header.html");
 })
